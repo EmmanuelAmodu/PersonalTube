@@ -1,0 +1,61 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { appConfig } from 'appConfig';
+import { ICountryListModel } from '@shared/models/country-list.interface';
+import { ICategoryListInterface } from '@shared/models/category-list.interface';
+import { ContextService } from '@shared/context.service';
+
+@Component({
+  selector   : 'app-slide-filters',
+  templateUrl: './slide-filters.component.html',
+  styleUrls  : [ './slide-filters.component.scss' ]
+})
+export class SlideFiltersComponent implements OnInit {
+  @Input() public filterSlide: any;
+  public countryFormControl: FormControl = new FormControl();
+  public countryList: ICountryListModel[] = appConfig.countryList;
+  public country: any;
+
+  public categoryFormControl: FormControl = new FormControl();
+  public categoriesList: ICategoryListInterface[] = [
+    {name: 'Film & Animation', id: 1},
+    {name: 'Autos & Vehicles', id: 2},
+    {name: 'Music', id: 10},
+    {name: 'Pets & Animals', id: 4}
+  ];
+
+  public defaultVideosOnPage: number = appConfig.maxVideosToLoad;
+
+  constructor(private appContext: ContextService,
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
+
+  public ngOnInit() {
+    this.setDefaults();
+  }
+
+  public onChangeVideosPerPage(count: number) {
+    this.appContext.videosCount.next(count);
+    this.appContext.currentPage.next(1);
+  }
+
+  private setDefaults() {
+    const defaultCountry = this.countryList.find((country) =>
+      country.code === appConfig.defaultRegion).name;
+    const defaultCategory = this.categoriesList.find((country) =>
+      country.id === appConfig.defaultCategoryId).name;
+
+    this.countryFormControl.setValue(defaultCountry);
+    this.categoryFormControl.setValue(defaultCategory);
+  }
+
+  public loadCountryTrend(val) {
+    if(this.country !== val) {
+      this.country = val;
+      this.router.navigate(['youtube', val]);
+    }
+  }
+}
