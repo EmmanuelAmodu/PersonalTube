@@ -7,7 +7,6 @@ import { MomentModule } from 'angular2-moment';
 
 /* Application routes */
 import { ROUTES } from './youtube.routes';
-import { ScrollDirective } from '../../scroll.directive';
 
 /* Material UI */
 import {
@@ -21,13 +20,12 @@ import { YoutubeComponent } from '@modules/youtube/youtube.component';
 import { VideoComponent } from '@modules/youtube/components/video.component';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
 import { PlayerComponent } from '@modules/youtube/player/player.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
     YoutubeComponent,
     VideoComponent,
-    PlayerComponent
+    PlayerComponent,
   ],
   imports     : [
     CommonModule,
@@ -37,10 +35,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatIconModule,
     MatSidenavModule,
     MomentModule,
-    InfiniteScrollModule,
     RouterModule.forChild(ROUTES)
   ],
-  providers   : [ YoutubeService, ScrollDirective ],
+  providers   : [ YoutubeService ],
   exports     : [ RouterModule ]
 })
 

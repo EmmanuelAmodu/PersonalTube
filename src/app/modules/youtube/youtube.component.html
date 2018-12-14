@@ -1,9 +1,6 @@
-<div id="youtube" *ngIf="videos.length; else loadingOrError"             
-infiniteScroll
-[infiniteScrollDistance]="2"
-[infiniteScrollThrottle]="50"
-(scrolled)="onScroll($event)">
-  <div class="row">
+<div id="youtube" *ngIf="videos.length; else loadingOrError">
+  <div class="scroller" (scroll)="scrollHandler($event)"></div>
+  <div class="row ">
     <div class="card-container"
          *ngFor="let video of videos">
       <app-video-component [video]="video"></app-video-component>

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Subject } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
+import { map, catchError } from 'rxjs/internal/operators';
 import { throwError } from 'rxjs/index';
 import { ActivatedRoute } from "@angular/router";
  
@@ -17,10 +17,10 @@ import { VideoClass } from './models/video.class';
 export class YoutubeComponent implements OnInit {
   public loadingError$ = new Subject<boolean>();
   public videos: VideoClass[] = [];
-  public showPigBtn: boolean;
-
-  private lastToken: string = "";
-
+  public params: any = {
+    videosPerPage: 0, saveToken: false, token: "", country: "", catg: ""
+  }
+  
   constructor(private youtubeService: YoutubeService,
               private appContext: ContextService, 
               private route: ActivatedRoute) {
@@ -29,43 +29,38 @@ export class YoutubeComponent implements OnInit {
   public ngOnInit(): void {
     this.appContext.moduleTitle.next('YOUTUBE');
 
-    this.route.params.subscribe(data => {
-      this.videosfunc(50, data.code);
-    });
-    
-    this.appContext.videosCount.subscribe(count => this.videosfunc(count));
-    const code = this.route.snapshot.paramMap.get("code");
-    this.appContext.pageToken.subscribe(token => this.lastToken = token);
+    this.route.queryParams.subscribe(data => this.videosfunc(data.count, data.country, data.category));
     
   }
 
-  private videosfunc(count, code?) {
+  private videosfunc(count: number, country?: string, catg?: string) {
     this.videos = [];
-    this.getVideos(50, '', code).subscribe(data => this.videos.push(...data));
-    if (count > 50) {
-      this.loadVideos(count);
+    this.params.videosPerPage = count;
+    this.params.saveToken = false;
+    this.params.token = "";
+    this.params.country = country;
+    this.params.catg = catg;
+
+    if (count <= 50) {
+        this.getVideos(this.params).subscribe(data => this.videos.push(...data));
+    }
+    else {
+        this.params.videosPerPage = 50;
+        this.params.saveToken = true;
+
+        this.getVideos(this.params).subscribe(data => this.videos.push(...data));
+        this.appContext.pageToken.subscribe(function(token) {
+            count-=50;
+            this.params.videosPerPage = count > 50 ? 50 : count;
+            this.params.token = token;
+            if (count > 0)
+                this.getVideos(this.params).subscribe(data => this.videos.push(...data));
+        }.bind(this));
     }
   }
 
-  loadMoreVideos() {
-    this.lastToken ? 
-      this.getVideos(50, this.lastToken).subscribe(data => this.videos.push(...data))
-      : alert("End of videos");
-  }
-
-  loadVideos(count) {
-    this.appContext.pageToken.subscribe(token => {
-      count -= 50;
-      if (count > 0) {
-        // TODO: Fix new bug will not load less then 50 contents
-        let vidnum = (count < 50 && count > 0) ? count : 50;
-        this.getVideos(vidnum, token).subscribe(data => this.videos.push(...data))
-      }
-    });
-  }
-
-  private getVideos(videosPerPage?: number, token?: string, code?: string) {
-    return this.youtubeService.getTrendingVideos(videosPerPage, token, code)
+  private getVideos(params) {
+    return this.youtubeService.getTrendingVideos(params.videosPerPage, params.saveToken, params.token, params.country, params.catg)
     .pipe(
       catchError((error: any) => {
         this.loadingError$.next(true);
@@ -76,6 +71,6 @@ export class YoutubeComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   public onWindowScroll(event: Event): void {
-    this.loadMoreVideos();
+    console.log('scrolled');
   }
 }

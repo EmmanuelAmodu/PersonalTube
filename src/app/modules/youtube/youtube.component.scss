@@ -9,6 +9,12 @@
   position         : fixed;
 }
 
+.scroller {
+    display: block;
+    height: 2000px;
+    width: 100px;
+  }
+
 #youtube {
   min-height       : calc(100% + 30px);
   background-color : #fdfbec;

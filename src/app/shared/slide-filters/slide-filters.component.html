@@ -12,8 +12,7 @@
          aria-label="Country"
          matInput
          [formControl]="countryFormControl"
-         [matAutocomplete]="countryAuto"
-         (focusout)="loadCountryTrend($event.target.value)">
+         [matAutocomplete]="countryAuto">
   <mat-autocomplete #countryAuto="matAutocomplete">
     <mat-option *ngFor="let country of countryList" [value]="country.code">
       {{country.name}}
@@ -30,7 +29,7 @@
          [formControl]="categoryFormControl"
          [matAutocomplete]="categoryAuto">
   <mat-autocomplete #categoryAuto="matAutocomplete">
-    <mat-option *ngFor="let category of categoriesList" [value]="category.name">
+    <mat-option *ngFor="let category of categoriesList" [value]="category.id">
       {{category.name}}
     </mat-option>
   </mat-autocomplete>

@@ -9,31 +9,44 @@ import { ContextService } from '@shared/context.service';
 
 @Injectable()
 export class YoutubeService  {
+
   constructor(private http: HttpClient, private appContext: ContextService) {
   }
 
-  public getTrendingVideos(videosPerPage?: number, token?: string, code?: string): Observable<VideoClass[]> {
+  public getTrendingVideos(videosPerPage?: number, nextToken?: boolean, token?: string, code?: string, catg?: string): Observable<VideoClass[]> {
+      
     const params: any = {
       part           : appConfig.partsToLoad,
       chart          : appConfig.chart,
-      videoCategoryId: appConfig.defaultCategoryId,
+      videoCategoryId: catg ? catg : appConfig.defaultCategoryId,
       regionCode     : code ? code : appConfig.defaultRegion,
       maxResults     : videosPerPage ? videosPerPage : appConfig.maxVideosToLoad,
       key            : appConfig.youtubeApiKey,
       pageToken      : token ? token : ""
     };
-
     return this.http.get<any>(appConfig.getYoutubeEndPoint('videos'), {params})
-               .pipe(
-                 map(
-                   (data) => {
-                     this.appContext.pageToken.next(data.nextPageToken);
-                     return data.items
+            .pipe(
+                map(
+                (data) => {
+                    if (nextToken)  {
+                        this.appContext.pageToken.next(data.nextPageToken);
+                        console.log(data);
+                    }
+                    return data.items
                         .map((item) => new VideoClass(item))
                         .filter((item) => item.id !== '')
-                      }),
-                 catchError(this.handleError('getTrendingVideos'))
-               ) as Observable<VideoClass[]>;
+                    }),
+                catchError(this.handleError('getTrendingVideos'))
+            ) as Observable<VideoClass[]>;
+  }
+
+  public checkVideoExist(vid: string) {
+      const params: any = {
+        part: "id",
+        id: vid,
+        key: appConfig.youtubeApiKey
+    };
+    return this.http.get<any>(appConfig.getYoutubeEndPoint('videos'), {params})
   }
 
   private handleError(operation: string = 'operation') {

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 export class ContextService {
   public moduleTitle: Subject<string> = new Subject<string>();
   public videosCount: Subject<number> = new Subject<number>();
-  public currentPage: Subject<number> = new Subject<number>();
+  public hideFilter: Subject<boolean> = new Subject<boolean>();
   public pageToken: Subject<string> = new Subject<string>();
 }
 

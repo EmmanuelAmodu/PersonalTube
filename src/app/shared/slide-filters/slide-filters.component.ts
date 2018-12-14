@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { appConfig } from 'appConfig';
 import { ICountryListModel } from '@shared/models/country-list.interface';
@@ -15,10 +15,12 @@ import { ContextService } from '@shared/context.service';
 export class SlideFiltersComponent implements OnInit {
   @Input() public filterSlide: any;
   public countryFormControl: FormControl = new FormControl();
-  public countryList: ICountryListModel[] = appConfig.countryList;
-  public country: any;
-
   public categoryFormControl: FormControl = new FormControl();
+
+  public countryList: ICountryListModel[] = appConfig.countryList;
+  public country: any = "";
+  public category: any = "";
+
   public categoriesList: ICategoryListInterface[] = [
     {name: 'Film & Animation', id: 1},
     {name: 'Autos & Vehicles', id: 2},
@@ -27,35 +29,31 @@ export class SlideFiltersComponent implements OnInit {
   ];
 
   public defaultVideosOnPage: number = appConfig.maxVideosToLoad;
+  public count: number;
 
   constructor(private appContext: ContextService,
-              private router: Router,
-              private route: ActivatedRoute) {
+              private router: Router) {
   }
 
   public ngOnInit() {
-    this.setDefaults();
+    this.countryFormControl.valueChanges.subscribe(country => this.loadCountryTrend(country));
+    this.categoryFormControl.valueChanges.subscribe(catg => this.loadCategoryTrend(catg));
   }
 
   public onChangeVideosPerPage(count: number) {
-    this.appContext.videosCount.next(count);
-    this.appContext.currentPage.next(1);
+      this.count = count;
+    this.router.navigate(['/youtube'], { queryParams:  { count: this.count, country: this.country, category: this.category } });
   }
 
-  private setDefaults() {
-    const defaultCountry = this.countryList.find((country) =>
-      country.code === appConfig.defaultRegion).name;
-    const defaultCategory = this.categoriesList.find((country) =>
-      country.id === appConfig.defaultCategoryId).name;
-
-    this.countryFormControl.setValue(defaultCountry);
-    this.categoryFormControl.setValue(defaultCategory);
+  public loadCategoryTrend(category: number) {
+      this.category = category;
+    this.router.navigate(['/youtube'], { queryParams: { count: this.count, country: this.country, category: this.category } });
   }
 
   public loadCountryTrend(val) {
     if(this.country !== val) {
       this.country = val;
-      this.router.navigate(['youtube', val]);
+      this.router.navigate(['/youtube'], { queryParams: { count: this.count, country: this.country, category: this.category } });
     }
   }
 }

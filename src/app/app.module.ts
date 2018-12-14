@@ -22,15 +22,13 @@ import { AppComponent } from './app.component';
 import { ContextService } from '@shared/context.service';
 import { HeaderComponent } from '@shared/header/header.component';
 import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.component';
-import { ScrollDirective } from './scroll.directive';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PlayerComponent } from '@modules/youtube/player/player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SlideFiltersComponent,
-    ScrollDirective
+    SlideFiltersComponent
   ],
   imports     : [
     BrowserModule,
@@ -43,13 +41,12 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatInputModule,
     MatSidenavModule,
     MatSliderModule,
-    InfiniteScrollModule,
     RouterModule.forRoot(ROUTES, {
       useHash           : Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     })
   ],
-  providers   : [ ContextService ],
+  providers   : [ ContextService, PlayerComponent ],
   bootstrap   : [ AppComponent ]
 })
 
