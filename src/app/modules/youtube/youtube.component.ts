@@ -28,9 +28,7 @@ export class YoutubeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.appContext.moduleTitle.next('YOUTUBE');
-
     this.route.queryParams.subscribe(data => this.videosfunc(data.count, data.country, data.category));
-    
   }
 
   private videosfunc(count: number, country?: string, catg?: string) {
@@ -49,13 +47,13 @@ export class YoutubeComponent implements OnInit {
         this.params.saveToken = true;
 
         this.getVideos(this.params).subscribe(data => this.videos.push(...data));
-        this.appContext.pageToken.subscribe(function(token) {
+        this.appContext.pageToken.subscribe((function(token) {
             count-=50;
             this.params.videosPerPage = count > 50 ? 50 : count;
             this.params.token = token;
             if (count > 0)
                 this.getVideos(this.params).subscribe(data => this.videos.push(...data));
-        }.bind(this));
+        }).bind(this));
     }
   }
 
@@ -67,10 +65,5 @@ export class YoutubeComponent implements OnInit {
         return throwError(error);
       })
     );
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  public onWindowScroll(event: Event): void {
-    console.log('scrolled');
   }
 }

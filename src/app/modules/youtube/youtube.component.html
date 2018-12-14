@@ -1,5 +1,4 @@
 <div id="youtube" *ngIf="videos.length; else loadingOrError">
-  <div class="scroller" (scroll)="scrollHandler($event)"></div>
   <div class="row ">
     <div class="card-container"
          *ngFor="let video of videos">

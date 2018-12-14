@@ -28,10 +28,7 @@ export class YoutubeService  {
             .pipe(
                 map(
                 (data) => {
-                    if (nextToken)  {
-                        this.appContext.pageToken.next(data.nextPageToken);
-                        console.log(data);
-                    }
+                    if (nextToken) this.appContext.pageToken.next(data.nextPageToken);
                     return data.items
                         .map((item) => new VideoClass(item))
                         .filter((item) => item.id !== '')
