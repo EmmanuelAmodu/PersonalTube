@@ -9,6 +9,10 @@
   position         : fixed;
 }
 
+.spinner-container {
+    height: calc(100vh - 53px);
+}
+
 #youtube {
   min-height       : calc(100% + 30px);
   background-color : #fdfbec;

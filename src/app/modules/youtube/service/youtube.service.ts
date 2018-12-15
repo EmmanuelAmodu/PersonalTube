@@ -29,6 +29,7 @@ export class YoutubeService  {
                 map(
                 (data) => {
                     if (nextToken) this.appContext.pageToken.next(data.nextPageToken);
+                    this.appContext.infPageToken.next(data.nextPageToken);
                     return data.items
                         .map((item: any) => new VideoClass(item))
                         .filter((item: any) => item.id !== '')

@@ -10,6 +10,7 @@ import { ContextService } from '@shared/context.service';
 import { Observable } from 'rxjs';
 import 'rxjs-compat/add/observable/of';
 import { VideoClass } from '@modules/youtube/models/video.class';
+import { WindowRef } from 'src/app/service/window-ref';
 
 @Component({
   selector: 'app-video-component',
@@ -39,7 +40,7 @@ describe('YoutubeComponent', () => {
              ],
              providers   : [
                {provide: YoutubeService, useValue: service},
-               ContextService
+               ContextService, WindowRef
              ]
            })
            .compileComponents();

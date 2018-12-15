@@ -8,13 +8,17 @@
   </div>
 </div>
 
-<ng-template #loadingOrError>
-  <div class="error-plate" *ngIf="loadingError$ | async; else loading">
-    <mat-icon>warning</mat-icon>
-    <span>Error loading. Please try again later.</span>
-  </div>
-
-  <ng-template class="gl-loading showLoading" #loading>
-    <div class="spinner"></div>
-  </ng-template>
-</ng-template>
+<div row="row">
+    <ng-template #loadingOrError>
+        <div class="error-plate" *ngIf="loadingError$ | async; else loading">
+            <mat-icon>warning</mat-icon>
+            <span>Error loading. Please try again later.</span>
+        </div>
+        
+        <ng-template class="gl-loading showLoading" #loading>
+            <div class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+        </ng-template>
+    </ng-template>
+</div>

@@ -8,6 +8,7 @@ import { YoutubeService } from './service/youtube.service';
 import { ContextService } from '@shared/context.service';
 import { VideoClass } from './models/video.class';
 import { WindowRef } from 'src/app/service/window-ref';
+import { GetVidoesParam } from './models/get-vidoes-param';
 
 @Component({
   selector   : 'app-youtube-component',
@@ -18,11 +19,10 @@ import { WindowRef } from 'src/app/service/window-ref';
 export class YoutubeComponent implements OnInit {
   @ViewChild('bottomEl') bottomEl: ElementRef; 
   private inPosition: boolean;
+  private nextTokenInf: string;
   public loadingError$ = new Subject<boolean>();
   public videos: VideoClass[] = [];
-  public params: any = {
-    videosPerPage: 0, saveToken: false, token: "", country: "", catg: ""
-  }
+  public params: GetVidoesParam = new GetVidoesParam();
   
   constructor(private youtubeService: YoutubeService,
               private appContext: ContextService, 
@@ -33,6 +33,7 @@ export class YoutubeComponent implements OnInit {
   public ngOnInit(): void {
     this.appContext.moduleTitle.next('YOUTUBE');
     this.route.queryParams.subscribe(data => this.videosfunc(data.count, data.country, data.category));
+    this.appContext.infPageToken.subscribe(d => this.nextTokenInf = d);
   }
 
   private videosfunc(count: number, country?: string, catg?: string) {
@@ -61,7 +62,7 @@ export class YoutubeComponent implements OnInit {
     }
   }
 
-  private getVideos(params) {
+  private getVideos(params: GetVidoesParam) {
     return this.youtubeService.getTrendingVideos(params.videosPerPage, params.saveToken, params.token, params.country, params.catg)
     .pipe(
       catchError((error: any) => {
@@ -95,6 +96,6 @@ export class YoutubeComponent implements OnInit {
   }
 
   private loadMoreVideos() {
-      console.log("more vidoes loaded");
+      console.log("more vidoes loaded", this.nextTokenInf);
   }
 }
