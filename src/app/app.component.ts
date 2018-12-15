@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector   : 'app-root',
@@ -7,11 +6,4 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls  : [ './app.component.scss' ]
 })
 
-export class AppComponent implements OnInit {
-    constructor( private route: ActivatedRoute) {
-    }
-
-    public ngOnInit(): void {
-
-    }
-}
+export class AppComponent {}

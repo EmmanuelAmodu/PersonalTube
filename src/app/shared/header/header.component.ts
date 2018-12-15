@@ -9,7 +9,7 @@ import { ContextService } from '../context.service';
   styleUrls  : [ './header.component.scss' ]
 })
 export class HeaderComponent implements OnInit {
-  @Input() public filterSlide;
+  @Input() public filterSlide: any;
   public showFilter: boolean = true;
   public title$: Subject<string> = this.appContext.moduleTitle;
 

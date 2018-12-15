@@ -23,6 +23,7 @@ import { ContextService } from '@shared/context.service';
 import { HeaderComponent } from '@shared/header/header.component';
 import { SlideFiltersComponent } from '@shared/slide-filters/slide-filters.component';
 import { PlayerComponent } from '@modules/youtube/player/player.component';
+import { WindowRef } from './service/window-ref';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { PlayerComponent } from '@modules/youtube/player/player.component';
       preloadingStrategy: PreloadAllModules
     })
   ],
-  providers   : [ ContextService, PlayerComponent ],
+  providers   : [ ContextService, PlayerComponent, WindowRef ],
   bootstrap   : [ AppComponent ]
 })
 

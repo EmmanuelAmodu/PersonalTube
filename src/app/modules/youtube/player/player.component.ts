@@ -44,7 +44,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   /* On video ready hide loader */
-  public loadVideo(el): void {
+  public loadVideo(): void {
     this.videoLoader = false;
   }
 

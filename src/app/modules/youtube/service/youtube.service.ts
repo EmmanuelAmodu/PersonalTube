@@ -30,8 +30,8 @@ export class YoutubeService  {
                 (data) => {
                     if (nextToken) this.appContext.pageToken.next(data.nextPageToken);
                     return data.items
-                        .map((item) => new VideoClass(item))
-                        .filter((item) => item.id !== '')
+                        .map((item: any) => new VideoClass(item))
+                        .filter((item: any) => item.id !== '')
                     }),
                 catchError(this.handleError('getTrendingVideos'))
             ) as Observable<VideoClass[]>;
