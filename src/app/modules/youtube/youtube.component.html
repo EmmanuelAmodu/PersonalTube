@@ -4,21 +4,20 @@
          *ngFor="let video of videos">
       <app-video-component [video]="video"></app-video-component>
     </div>
-    <span #bottomEl></span>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <span class="spinner" #bottomEl></span>
   </div>
 </div>
 
-<div row="row">
-    <ng-template #loadingOrError>
-        <div class="error-plate" *ngIf="loadingError$ | async; else loading">
-            <mat-icon>warning</mat-icon>
-            <span>Error loading. Please try again later.</span>
+<ng-template #loadingOrError>
+    <div class="error-plate" *ngIf="loadingError$ | async; else loading">
+        <mat-icon>warning</mat-icon>
+        <span>Error loading. Please try again later.</span>
+    </div>
+    
+    <ng-template class="gl-loading showLoading" #loading>
+        <div class="spinner-container">
+            <div class="spinner"></div>
         </div>
-        
-        <ng-template class="gl-loading showLoading" #loading>
-            <div class="spinner-container">
-                <div class="spinner"></div>
-            </div>
-        </ng-template>
     </ng-template>
-</div>
+</ng-template>

@@ -12,7 +12,8 @@ import { ROUTES } from './youtube.routes';
 import {
   MatButtonModule,
   MatIconModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 /* Components/Services/Pipes */
@@ -34,6 +35,7 @@ import { PlayerComponent } from '@modules/youtube/player/player.component';
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
+    MatProgressBarModule,
     MomentModule,
     RouterModule.forChild(ROUTES)
   ],

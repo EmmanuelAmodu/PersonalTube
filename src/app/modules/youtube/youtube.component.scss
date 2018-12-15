@@ -13,6 +13,14 @@
     height: calc(100vh - 53px);
 }
 
+.mat-progress-bar {
+    height: 125px;
+}
+
+.mat-progress-bar-buffer {
+    background-color: #fdfbec;
+}
+
 #youtube {
   min-height       : calc(100% + 30px);
   background-color : #fdfbec;

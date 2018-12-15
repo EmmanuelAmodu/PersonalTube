@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
-import { map, catchError } from 'rxjs/internal/operators';
+import { catchError } from 'rxjs/internal/operators';
 import { throwError } from 'rxjs/index';
 import { ActivatedRoute } from "@angular/router";
  
@@ -96,6 +96,10 @@ export class YoutubeComponent implements OnInit {
   }
 
   private loadMoreVideos() {
-      console.log("more vidoes loaded", this.nextTokenInf);
+      this.params.videosPerPage = 50;
+      this.params.token = this.nextTokenInf;
+      this.params.saveToken = false;
+      if (this.nextTokenInf)
+        this.getVideos(this.params).subscribe(data => this.videos.push(...data));
   }
 }
