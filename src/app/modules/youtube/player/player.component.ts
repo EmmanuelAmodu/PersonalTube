@@ -12,7 +12,7 @@ import { ContextService } from '@shared/context.service';
   styleUrls  : [ './player.component.scss' ]
 })
 export class PlayerComponent implements OnInit, OnDestroy {
-  private embedUrl: SafeResourceUrl;
+  public embedUrl: SafeResourceUrl;
   public videoLoader: boolean;
 
   constructor(private sanitizer: DomSanitizer, 

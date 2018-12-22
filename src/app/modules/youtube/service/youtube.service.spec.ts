@@ -15,4 +15,22 @@ describe('YoutubeService', () => {
     expect(service)
       .toBeTruthy();
   }));
+
+  it('should get 50 vidoes by default', async(inject([ YoutubeService ], (service: YoutubeService) => {
+      service.getTrendingVideos().toPromise().then(d => {
+        expect(d.length).toBe(50);
+      });
+  })));
+
+  it('should get any number vidoes', async(inject([ YoutubeService ], (service: YoutubeService) => {
+    service.getTrendingVideos(25, false, "CDIQAA", "AI", '2').toPromise().then(d => {
+      expect(d.length).toBe(25);
+    });
+  })));
+
+  it('should check vidoe exist', async(inject([ YoutubeService ], (service: YoutubeService) => {
+    service.checkVideoExist('xp6706wVdCI').toPromise().then(d => {
+      expect(d.items.length).toBe(1);
+    });
+  })));
 });

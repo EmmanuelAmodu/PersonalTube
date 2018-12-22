@@ -9,6 +9,7 @@ import { ContextService } from '@shared/context.service';
 import { VideoClass } from './models/video.class';
 import { WindowRef } from 'src/app/service/window-ref';
 import { GetVidoesParam } from './models/get-vidoes-param';
+import { DocumentRef } from '../../service/document-ref';
 
 @Component({
   selector   : 'app-youtube-component',
@@ -27,7 +28,8 @@ export class YoutubeComponent implements OnInit {
   constructor(private youtubeService: YoutubeService,
               private appContext: ContextService, 
               private route: ActivatedRoute,
-              private winRef: WindowRef ) {
+              private winRef: WindowRef,
+              private documentRef: DocumentRef ) {
   }
 
   public ngOnInit(): void {
@@ -36,7 +38,7 @@ export class YoutubeComponent implements OnInit {
     this.appContext.infPageToken.subscribe(d => this.nextTokenInf = d);
   }
 
-  private videosfunc(count: number, country?: string, catg?: string) {
+  public videosfunc(count: number, country?: string, catg?: string) {
     this.videos = [];
     this.params.videosPerPage = count;
     this.params.saveToken = false;
@@ -95,11 +97,15 @@ export class YoutubeComponent implements OnInit {
     );
   }
 
-  private loadMoreVideos() {
+  public loadMoreVideos() {
       this.params.videosPerPage = 50;
       this.params.token = this.nextTokenInf;
       this.params.saveToken = false;
       if (this.nextTokenInf)
         this.getVideos(this.params).subscribe(data => this.videos.push(...data));
+  }
+
+  public scrollTopageEnd(){
+    this.winRef.nativeWindow.scrollTo(0, this.documentRef.nativeDocument.body.scrollHeight);
   }
 }

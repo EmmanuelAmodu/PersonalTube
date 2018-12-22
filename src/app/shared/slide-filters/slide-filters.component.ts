@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { appConfig } from 'appConfig';
 import { ICountryListModel } from '@shared/models/country-list.interface';
 import { ICategoryListInterface } from '@shared/models/category-list.interface';
-import { ContextService } from '@shared/context.service';
 
 @Component({
   selector   : 'app-slide-filters',
@@ -14,6 +13,7 @@ import { ContextService } from '@shared/context.service';
 })
 export class SlideFiltersComponent implements OnInit {
   @Input() public filterSlide: any;
+  public videosCountPerPage:  FormControl = new FormControl();
   public countryFormControl: FormControl = new FormControl();
   public categoryFormControl: FormControl = new FormControl();
 
@@ -31,11 +31,11 @@ export class SlideFiltersComponent implements OnInit {
   public defaultVideosOnPage: number = appConfig.maxVideosToLoad;
   public count: number;
 
-  constructor(private appContext: ContextService,
-              private router: Router) {
+  constructor(private router: Router) {
   }
 
   public ngOnInit() {
+    this.videosCountPerPage.valueChanges.subscribe(count => this.onChangeVideosPerPage(count));
     this.countryFormControl.valueChanges.subscribe(country => this.loadCountryTrend(country));
     this.categoryFormControl.valueChanges.subscribe(catg => this.loadCategoryTrend(catg));
   }

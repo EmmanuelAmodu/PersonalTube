@@ -21,6 +21,7 @@ import { YoutubeComponent } from '@modules/youtube/youtube.component';
 import { VideoComponent } from '@modules/youtube/components/video.component';
 import { YoutubeService } from '@modules/youtube/service/youtube.service';
 import { PlayerComponent } from '@modules/youtube/player/player.component';
+import { DocumentRef } from 'src/app/service/document-ref';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { PlayerComponent } from '@modules/youtube/player/player.component';
     MomentModule,
     RouterModule.forChild(ROUTES)
   ],
-  providers   : [ YoutubeService ],
+  providers   : [ YoutubeService, DocumentRef ],
   exports     : [ RouterModule ]
 })
 

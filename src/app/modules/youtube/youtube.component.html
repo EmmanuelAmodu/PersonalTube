@@ -1,4 +1,4 @@
-<div id="youtube" *ngIf="videos.length; else loadingOrError">
+<div id="youtube" *ngIf="videos.length; else loadingOrError" (click)="scrollTopageEnd()">
   <div class="row">
     <div class="card-container"
          *ngFor="let video of videos">

@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { Location } from '@angular/common';
 import {
   MatAutocompleteModule, MatIconModule, MatInputModule, MatSidenavModule,
   MatSliderModule
@@ -9,15 +10,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SlideFiltersComponent } from './slide-filters.component';
 import { ContextService } from '../context.service';
+import { ActivatedRoute } from '@angular/router';
 
 describe('HeaderComponent', () => {
   let component: SlideFiltersComponent;
   let fixture: ComponentFixture<SlideFiltersComponent>;
-  let context: ContextService;
+  let location: ActivatedRoute;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
              declarations: [ SlideFiltersComponent ],
-             providers   : [ ContextService ],
+             providers   : [  ],
              imports     : [
                BrowserAnimationsModule,
                FormsModule,
@@ -31,7 +33,7 @@ describe('HeaderComponent', () => {
              ]
            })
            .compileComponents();
-    context = TestBed.get(ContextService);
+    location = TestBed.get(ActivatedRoute);
   }));
 
   beforeEach(() => {
@@ -43,5 +45,23 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component)
       .toBeTruthy();
+  });
+
+  it('should set Page videos count when videosCountPerPage value change', () => {
+    component.videosCountPerPage.setValue(50);
+    expect(component.count)
+      .toBe(50);
+  });
+
+  it('should set Page category count when categoryFormControl value change', () => {
+    component.categoryFormControl.setValue(2);
+    expect(component.category)
+      .toBe(2);
+  });
+
+  it('should set Page category count when categoryFormControl value change', () => {
+    component.categoryFormControl.setValue(2);
+    expect(component.category)
+      .toBe(2);
   });
 });
