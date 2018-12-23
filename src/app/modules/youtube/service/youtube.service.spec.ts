@@ -28,9 +28,15 @@ describe('YoutubeService', () => {
     });
   })));
 
-  it('should check vidoe exist', async(inject([ YoutubeService ], (service: YoutubeService) => {
+  it('should check video exist', async(inject([ YoutubeService ], (service: YoutubeService) => {
     service.checkVideoExist('xp6706wVdCI').toPromise().then(d => {
       expect(d.items.length).toBe(1);
+    });
+  })));
+
+  it('should check video exist should fail', async(inject([ YoutubeService ], (service: YoutubeService) => {
+    service.checkVideoExist('').toPromise().then(d => {
+      expect(d.items.length).toBe(0);
     });
   })));
 });

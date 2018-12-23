@@ -28,8 +28,7 @@ export class YoutubeComponent implements OnInit {
   constructor(private youtubeService: YoutubeService,
               private appContext: ContextService, 
               private route: ActivatedRoute,
-              private winRef: WindowRef,
-              private documentRef: DocumentRef ) {
+              private winRef: WindowRef ) {
   }
 
   public ngOnInit(): void {
@@ -87,7 +86,7 @@ export class YoutubeComponent implements OnInit {
       }
   }
 
-  public isSrollIntoViewPoint(el, win, doc) {
+  private isSrollIntoViewPoint(el, win, doc) {
     var bounding = el.getBoundingClientRect();
     return (
         bounding.top >= 0 &&
@@ -97,7 +96,7 @@ export class YoutubeComponent implements OnInit {
     );
   }
 
-  public loadMoreVideos() {
+   public loadMoreVideos() {
       this.params.videosPerPage = 50;
       this.params.token = this.nextTokenInf;
       this.params.saveToken = false;
@@ -105,7 +104,4 @@ export class YoutubeComponent implements OnInit {
         this.getVideos(this.params).subscribe(data => this.videos.push(...data));
   }
 
-  public scrollTopageEnd(){
-    this.winRef.nativeWindow.scrollTo(0, this.documentRef.nativeDocument.body.scrollHeight);
-  }
 }
