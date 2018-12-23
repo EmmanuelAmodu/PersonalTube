@@ -6,6 +6,7 @@
     "start": "ng serve --env=local",
     "build": "ng build",
     "test": "ng test",
+    "test-remote": "ng test --watch false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-dev": "ng build --target=development --environment=dev",
